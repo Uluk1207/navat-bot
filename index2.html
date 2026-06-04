@@ -1027,7 +1027,7 @@ function selectPersons(el) {
 function showBookingSuccess(bookingId) {
   // Бронь ырасталды модал
   const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;pointer-events:all';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px';
   overlay.innerHTML = `
     <div style="background:#1a1510;border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:36px;max-width:400px;width:100%;text-align:center">
       <div style="font-size:60px;margin-bottom:16px">✅</div>

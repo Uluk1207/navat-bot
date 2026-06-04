@@ -429,10 +429,14 @@
 let ORDERS = [];
 let BOOKINGS = [];
 
+const API_BASE = window.location.hostname === 'localhost' 
+  ? 'http://localhost:3000' 
+  : 'https://navat-bot.onrender.com';
+
 async function loadData() {
   try {
     const [ordRes, bookRes] = await Promise.all([
-      fetch('/api/orders'), fetch('/api/bookings')
+      fetch(`${API_BASE}/api/orders`), fetch(`${API_BASE}/api/bookings`)
     ]);
     ORDERS = await ordRes.json();
     BOOKINGS = await bookRes.json();
@@ -499,7 +503,7 @@ function bookingRow(b) {
 }
 
 async function changeOrderStatus(id, newStatus) {
-  await fetch(`/api/orders/${id}`, {
+  await fetch(`${API_BASE}/api/orders/${id}`, {
     method: 'PATCH',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({status: newStatus})
@@ -509,7 +513,7 @@ async function changeOrderStatus(id, newStatus) {
 }
 
 async function confirmBooking(id) {
-  await fetch(`/api/bookings/${id}`, {
+  await fetch(`${API_BASE}/api/bookings/${id}`, {
     method: 'PATCH',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({status: 'confirmed'})

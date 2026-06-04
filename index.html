@@ -775,6 +775,10 @@
 </footer>
 
 <script>
+const API_BASE = window.location.hostname === 'localhost' 
+  ? 'http://localhost:3000' 
+  : 'https://navat-bot.onrender.com';
+
 const MENU = {
   "☕ Чай жана кофе": [
     {ат:"Кок чай", баа:50, emoji:"🍵"},
@@ -951,7 +955,7 @@ function submitOrder() {
   const address = document.getElementById('orderAddress').value.trim();
   if (!name || !phone) { showToast('⚠️ Аты жана телефон керек!'); return; }
   if (!cart.length) { showToast('⚠️ Себет бош!'); return; }
-  fetch('/api/orders', {
+  fetch(`${API_BASE}/api/orders`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, phone, address, type: orderType === 'delivery' ? 'Жеткирүү' : 'Алып кетүү', cart, source: 'Веб-сайт' })
@@ -1005,7 +1009,7 @@ function submitBooking() {
   if (!selectedTime) { showToast('⚠️ Убакыт тандаңыз!'); return; }
   if (!selectedPersons) { showToast('⚠️ Адам санын тандаңыз!'); return; }
   if (!name || !phone) { showToast('⚠️ Аты жана телефон керек!'); return; }
-  fetch('/api/bookings', {
+  fetch(`${API_BASE}/api/bookings`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, phone, date: selectedDay, time: selectedTime, persons: selectedPersons, source: 'Веб-сайт' })

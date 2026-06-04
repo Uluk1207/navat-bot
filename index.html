@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Нават Чайканасы</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0c08;
+    --bg2: #1a1510;
+    --bg3: #241e16;
+    --gold: #c9a84c;
+    --gold2: #e8c96a;
+    --cream: #f5efe6;
+    --text: #e8dcc8;
+    --muted: #8a7a62;
+    --green: #4a7c59;
+    --red: #c0392b;
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #1a1208, #0f0c08);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+  .logo span { color: var(--cream); font-size: 13px; display: block; font-family: 'Nunito', sans-serif; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; }
+  .cart-btn {
+    background: var(--gold);
+    color: #0f0c08;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .cart-btn:hover { background: var(--gold2); transform: translateY(-1px); }
+  .cart-count {
+    background: #0f0c08;
+    color: var(--gold);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(160deg, #1a1208 0%, #0f0c08 60%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><circle cx="30" cy="30" r="1" fill="rgba(201,168,76,0.08)"/></svg>');
+    padding: 60px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 56px);
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .hero p { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
+  .hero-badges {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--gold);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+  }
+
+  /* CATEGORIES */
+  .categories {
+    display: flex;
+    gap: 10px;
+    padding: 24px 24px 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .categories::-webkit-scrollbar { display: none; }
+  .cat-btn {
+    background: var(--bg2);
+    border: 1px solid rgba(201,168,76,0.15);
+    color: var(--muted);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .cat-btn:hover, .cat-btn.active {
+    background: rgba(201,168,76,0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* MENU GRID */
+  .menu-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .item-card {
+    background: var(--bg2);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .item-card:hover {
+    border-color: rgba(201,168,76,0.35);
+    transform: translateY(-3px);
+    background: var(--bg3);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .item-emoji { font-size: 36px; }
+  .item-name {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--cream);
+  }
+  .item-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+  .item-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .item-price span { font-size: 13px; font-family: 'Nunito', sans-serif; color: var(--muted); }
+  .add-btn {
+    background: var(--gold);
+    color: #0f0c08;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+  .add-btn:hover { background: var(--gold2); transform: scale(1.1); }
+  .add-btn.in-cart { background: var(--green); color: white; }
+
+  /* CART SIDEBAR */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+  .cart-panel {
+    position: fixed;
+    right: -420px;
+    top: 0;
+    bottom: 0;
+    width: 400px;
+    max-width: 100vw;
+    background: var(--bg2);
+    border-left: 1px solid rgba(201,168,76,0.2);
+    z-index: 201;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s cubic-bezier(0.4,0,0.2,1);
+    overflow: hidden;
+  }
+  .cart-panel.open { right: 0; }
+  .cart-header {
+    padding: 24px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cart-header h2 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 22px; }
+  .close-btn { background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; }
+  .close-btn:hover { color: var(--cream); }
+  .cart-items { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .cart-empty { text-align: center; color: var(--muted); padding: 60px 20px; }
+  .cart-empty .empty-icon { font-size: 48px; margin-bottom: 12px; }
+  .cart-item {
+    background: var(--bg3);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cart-item-emoji { font-size: 28px; }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-weight: 600; font-size: 14px; color: var(--cream); }
+  .cart-item-price { color: var(--gold); font-size: 13px; }
+  .qty-controls { display: flex; align-items: center; gap: 8px; }
+  .qty-btn {
+    background: rgba(201,168,76,0.15);
+    border: none;
+    color: var(--gold);
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .qty-btn:hover { background: rgba(201,168,76,0.3); }
+  .qty-num { font-weight: 700; min-width: 20px; text-align: center; }
+
+  .cart-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .cart-total span:first-child { color: var(--muted); font-size: 14px; }
+  .cart-total-price { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--gold); }
+  .order-btn {
+    width: 100%;
+    background: var(--gold);
+    color: #0f0c08;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .order-btn:hover { background: var(--gold2); transform: translateY(-1px); }
+
+  /* ORDER MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 20px;
+    padding: 32px;
+    width: 100%;
+    max-width: 480px;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal h2 { font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 24px; font-size: 22px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--text);
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--gold);
+  }
+  .form-group select option { background: var(--bg2); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .type-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .type-btn {
+    background: var(--bg3);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--muted);
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .type-btn.active { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
+  .modal-actions { display: flex; gap: 12px; margin-top: 24px; }
+  .btn-cancel {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--muted);
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .btn-submit {
+    flex: 2;
+    background: var(--gold);
+    border: none;
+    color: #0f0c08;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    transition: all 0.2s;
+  }
+  .btn-submit:hover { background: var(--gold2); }
+
+  /* SUCCESS */
+  .success-screen {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .success-icon { font-size: 64px; margin-bottom: 16px; }
+  .success-screen h3 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 24px; margin-bottom: 8px; }
+  .success-screen p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+  .order-id { background: var(--bg3); border-radius: 8px; padding: 8px 16px; display: inline-block; margin: 12px 0; font-family: monospace; color: var(--gold2); font-size: 16px; }
+
+  /* BOOKING PAGE */
+  .booking-section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+  .booking-title { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--gold); margin-bottom: 8px; }
+  .booking-sub { color: var(--muted); margin-bottom: 32px; }
+  .booking-form {
+    background: var(--bg2);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 20px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .day-btn {
+    background: var(--bg3);
+    border: 1px solid rgba(201,168,76,0.1);
+    color: var(--muted);
+    padding: 10px 4px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 11px;
+    text-align: center;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .day-btn .day-name { font-weight: 600; display: block; }
+  .day-btn .day-num { font-size: 14px; font-weight: 700; display: block; }
+  .day-btn:hover, .day-btn.active {
+    background: rgba(201,168,76,0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .times-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .time-btn {
+    background: var(--bg3);
+    border: 1px solid rgba(201,168,76,0.1);
+    color: var(--muted);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .time-btn:hover, .time-btn.active {
+    background: rgba(201,168,76,0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .persons-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .person-btn {
+    background: var(--bg3);
+    border: 1px solid rgba(201,168,76,0.1);
+    color: var(--muted);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .person-btn:hover, .person-btn.active {
+    background: rgba(201,168,76,0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .field-label { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .booking-btn {
+    width: 100%;
+    background: var(--gold);
+    color: #0f0c08;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s;
+  }
+  .booking-btn:hover { background: var(--gold2); transform: translateY(-1px); }
+
+  /* NAV */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    max-width: 1100px;
+    margin: 24px auto 0;
+    padding: 0 24px;
+  }
+  .nav-tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    padding: 12px 24px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { color: var(--cream); }
+  .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* PAGE */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 32px 24px;
+    text-align: center;
+    margin-top: 60px;
+  }
+  footer p { color: var(--muted); font-size: 14px; line-height: 1.8; }
+  footer strong { color: var(--gold); }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--bg3);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--cream);
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 400;
+    transition: transform 0.3s;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 600px) {
+    .items-grid { grid-template-columns: 1fr 1fr; }
+    .days-grid { grid-template-columns: repeat(4, 1fr); }
+    .times-grid { grid-template-columns: repeat(4, 1fr); }
+    .persons-grid { grid-template-columns: repeat(4, 1fr); }
+    .cart-panel { width: 100vw; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      Нават
+      <span>Чайканасы</span>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="/admin.html" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);color:var(--gold);padding:8px 16px;border-radius:50px;font-size:13px;font-weight:700;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">👑 Admin</a>
+      <button class="cart-btn" onclick="toggleCart()">
+      🛒 Себет
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    </div>
+  </div>
+</header>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showPage('menu', this)">🍽️ Меню</button>
+  <button class="nav-tab" onclick="showPage('booking', this)">📅 Стол брондоо</button>
+  <button class="nav-tab" onclick="showPage('about', this)">ℹ️ Биз жөнүндө</button>
+</div>
+
+<!-- ======= MENU PAGE ======= -->
+<div class="page active" id="page-menu">
+  <div class="hero">
+    <h1>Нават Чайканасы</h1>
+    <p>Ош шаарынын эң мыкты өзбек жана кыргыз дасторкону</p>
+    <div class="hero-badges">
+      <span class="badge">🕐 09:00 – 23:00</span>
+      <span class="badge">📍 Ленин 45</span>
+      <span class="badge">📞 +996 700 123 456</span>
+    </div>
+  </div>
+
+  <div class="categories" id="categories"></div>
+
+  <div class="menu-section" id="menuSection"></div>
+</div>
+
+<!-- ======= BOOKING PAGE ======= -->
+<div class="page" id="page-booking">
+  <div class="booking-section">
+    <h1 class="booking-title">Стол Брондоо</h1>
+    <p class="booking-sub">Күн, убакыт жана адам санын тандаңыз</p>
+
+    <div class="booking-form">
+      <!-- Күн -->
+      <div>
+        <div class="field-label">📅 Күн тандаңыз</div>
+        <div class="days-grid" id="daysGrid"></div>
+      </div>
+
+      <!-- Убакыт -->
+      <div>
+        <div class="field-label">🕐 Убакыт</div>
+        <div class="times-grid">
+          <button class="time-btn" onclick="selectTime(this)">11:00</button>
+          <button class="time-btn" onclick="selectTime(this)">12:00</button>
+          <button class="time-btn" onclick="selectTime(this)">13:00</button>
+          <button class="time-btn" onclick="selectTime(this)">14:00</button>
+          <button class="time-btn" onclick="selectTime(this)">15:00</button>
+          <button class="time-btn" onclick="selectTime(this)">17:00</button>
+          <button class="time-btn" onclick="selectTime(this)">18:00</button>
+          <button class="time-btn" onclick="selectTime(this)">19:00</button>
+          <button class="time-btn" onclick="selectTime(this)">20:00</button>
+          <button class="time-btn" onclick="selectTime(this)">21:00</button>
+        </div>
+      </div>
+
+      <!-- Адам саны -->
+      <div>
+        <div class="field-label">👥 Адам саны</div>
+        <div class="persons-grid">
+          <button class="person-btn" onclick="selectPersons(this)">1</button>
+          <button class="person-btn" onclick="selectPersons(this)">2</button>
+          <button class="person-btn" onclick="selectPersons(this)">3</button>
+          <button class="person-btn" onclick="selectPersons(this)">4</button>
+          <button class="person-btn" onclick="selectPersons(this)">5</button>
+          <button class="person-btn" onclick="selectPersons(this)">6</button>
+          <button class="person-btn" onclick="selectPersons(this)">7</button>
+          <button class="person-btn" onclick="selectPersons(this)">8</button>
+          <button class="person-btn" onclick="selectPersons(this)">9</button>
+          <button class="person-btn" onclick="selectPersons(this)">10</button>
+          <button class="person-btn" onclick="selectPersons(this)">11</button>
+          <button class="person-btn" onclick="selectPersons(this)">12</button>
+        </div>
+      </div>
+
+      <!-- Аты -->
+      <div class="form-row">
+        <div>
+          <div class="field-label">👤 Атыңыз</div>
+          <input type="text" id="bookName" placeholder="Толук аты-жөнү">
+        </div>
+        <div>
+          <div class="field-label">📞 Телефон</div>
+          <input type="tel" id="bookPhone" placeholder="+996 700 000 000">
+        </div>
+      </div>
+
+      <button class="booking-btn" onclick="submitBooking()">✅ Столду брондоо</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======= ABOUT PAGE ======= -->
+<div class="page" id="page-about">
+  <div class="booking-section">
+    <h1 class="booking-title">Биз жөнүндө</h1>
+    <div style="background:var(--bg2);border:1px solid rgba(201,168,76,0.15);border-radius:20px;padding:28px;line-height:2;color:var(--text)">
+      <p style="font-size:18px;color:var(--gold);font-family:'Playfair Display',serif;margin-bottom:16px">🌿 Нават Чайканасы</p>
+      <p>📍 <strong style="color:var(--gold)">Дарек:</strong> Ош шаары, Ленин көчөсү 45</p>
+      <p>🕐 <strong style="color:var(--gold)">Иш убакыты:</strong> 09:00 – 23:00, ар күнү</p>
+      <p>📞 <strong style="color:var(--gold)">Телефон:</strong> +996 700 123 456</p>
+      <p>📱 <strong style="color:var(--gold)">WhatsApp:</strong> +996 700 123 456</p>
+      <p>📸 <strong style="color:var(--gold)">Instagram:</strong> @nawat_chaikhanasy</p>
+      <p>✈️ <strong style="color:var(--gold)">Telegram:</strong> @MyNavatBot</p>
+      <hr style="border:none;border-top:1px solid rgba(201,168,76,0.15);margin:20px 0">
+      <p style="color:var(--muted);font-size:14px">Биз өзбек жана кыргыз дасторкондун эң мыкты тамактарын сунуштайбыз. Жылуу кабыл алуу, таза тамак жана жагымдуу чөйрө — биздин артыкчылыгыбыз.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h2>🛒 Себет</h2>
+    <button class="close-btn" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span>Жалпы сумма:</span>
+      <span class="cart-total-price" id="cartTotal">0 сом</span>
+    </div>
+    <button class="order-btn" onclick="openOrderModal()">Тапсырыш берүү →</button>
+  </div>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal">
+    <div id="orderForm">
+      <h2>📦 Тапсырыш маалыматы</h2>
+      <div class="form-group">
+        <label>Ыкма</label>
+        <div class="type-toggle">
+          <button class="type-btn active" id="typeDelivery" onclick="setType('delivery')">🏠 Жеткирүү</button>
+          <button class="type-btn" id="typePickup" onclick="setType('pickup')">🏪 Алып кетүү</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Атыңыз</label>
+          <input type="text" id="orderName" placeholder="Аты-жөнү">
+        </div>
+        <div class="form-group">
+          <label>Телефон</label>
+          <input type="tel" id="orderPhone" placeholder="+996...">
+        </div>
+      </div>
+      <div class="form-group" id="addressGroup">
+        <label>Дарек</label>
+        <input type="text" id="orderAddress" placeholder="Толук дарек">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeOrderModal()">Жокко чыгар</button>
+        <button class="btn-submit" onclick="submitOrder()">✅ Тастыктоо</button>
+      </div>
+    </div>
+    <div id="orderSuccess" class="success-screen" style="display:none">
+      <div class="success-icon">✅</div>
+      <h3>Тапсырыш кабыл алынды!</h3>
+      <div class="order-id" id="successOrderId"></div>
+      <p>Сиздин тапсырышыңыз иштелип жатат.<br>Болжолдуу убакыт: <strong style="color:var(--gold)">30-45 мүнөт</strong></p>
+      <button class="booking-btn" style="margin-top:20px" onclick="closeOrderModal()">Жабуу</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<footer>
+  <p><strong>Нават Чайканасы</strong><br>
+  📍 Ош шаары, Ленин көчөсү 45 &nbsp;|&nbsp; 🕐 09:00–23:00<br>
+  📞 +996 700 123 456</p>
+</footer>
+
+<script>
+const MENU = {
+  "☕ Чай жана кофе": [
+    {ат:"Кок чай", баа:50, emoji:"🍵"},
+    {ат:"Кара чай", баа:50, emoji:"☕"},
+    {ат:"Зеленый чай", баа:60, emoji:"🍵"},
+    {ат:"Капучино", баа:120, emoji:"☕"},
+    {ат:"Латте", баа:130, emoji:"☕"},
+    {ат:"Эспрессо", баа:80, emoji:"☕"},
+  ],
+  "🍽️ Негизги тамактар": [
+    {ат:"Лагман", баа:250, emoji:"🍜"},
+    {ат:"Манты", баа:200, emoji:"🥟"},
+    {ат:"Шашлык (100г)", баа:180, emoji:"🍢"},
+    {ат:"Плов", баа:220, emoji:"🍚"},
+    {ат:"Самса", баа:80, emoji:"🥐"},
+    {ат:"Бешбармак", баа:350, emoji:"🍖"},
+  ],
+  "🥗 Салаттар": [
+    {ат:"Ачык-чачык", баа:120, emoji:"🥗"},
+    {ат:"Цезарь", баа:180, emoji:"🥗"},
+    {ат:"Нан", баа:30, emoji:"🍞"},
+    {ат:"Чий", баа:100, emoji:"🥙"},
+  ],
+  "🥤 Суусундуктар": [
+    {ат:"Компот", баа:60, emoji:"🥤"},
+    {ат:"Свежевыжатый сок", баа:150, emoji:"🧃"},
+    {ат:"Минералдык суу", баа:50, emoji:"💧"},
+    {ат:"Айран", баа:70, emoji:"🥛"},
+  ],
+};
+
+let cart = [];
+let orderType = 'delivery';
+let selectedDay = null, selectedTime = null, selectedPersons = null;
+
+// Build categories
+const catsEl = document.getElementById('categories');
+const allBtn = document.createElement('button');
+allBtn.className = 'cat-btn active';
+allBtn.textContent = '🍴 Баары';
+allBtn.onclick = () => { filterMenu('all'); setActive(catsEl, allBtn); };
+catsEl.appendChild(allBtn);
+
+Object.keys(MENU).forEach(cat => {
+  const btn = document.createElement('button');
+  btn.className = 'cat-btn';
+  btn.textContent = cat;
+  btn.onclick = () => { filterMenu(cat); setActive(catsEl, btn); };
+  catsEl.appendChild(btn);
+});
+
+function setActive(parent, el) {
+  parent.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function filterMenu(filter) {
+  document.querySelectorAll('.menu-block').forEach(b => {
+    b.style.display = (filter === 'all' || b.dataset.cat === filter) ? '' : 'none';
+  });
+}
+
+// Build menu
+const menuSection = document.getElementById('menuSection');
+Object.entries(MENU).forEach(([cat, items]) => {
+  const block = document.createElement('div');
+  block.className = 'menu-block';
+  block.dataset.cat = cat;
+  block.innerHTML = `<h2 class="section-title">${cat}</h2>`;
+  const grid = document.createElement('div');
+  grid.className = 'items-grid';
+  items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'item-card';
+    card.innerHTML = `
+      <div class="item-emoji">${item.emoji}</div>
+      <div class="item-name">${item.ат}</div>
+      <div class="item-footer">
+        <div class="item-price">${item.баа} <span>сом</span></div>
+        <button class="add-btn" onclick="addToCart('${cat}','${item.ат}',${item.баа},'${item.emoji}',this)">+</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+  block.appendChild(grid);
+  menuSection.appendChild(block);
+});
+
+// Cart
+function addToCart(cat, name, price, emoji, btn) {
+  const existing = cart.find(i => i.ат === name);
+  if (existing) existing.сан++;
+  else cart.push({ат: name, баа: price, emoji, сан: 1});
+  btn.textContent = '✓';
+  btn.classList.add('in-cart');
+  setTimeout(() => { btn.textContent = '+'; btn.classList.remove('in-cart'); }, 800);
+  function showBookingSuccess(bookingId) {
+  // Бронь ырасталды модал
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px';
+  overlay.innerHTML = `
+    <div style="background:#1a1510;border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:36px;max-width:400px;width:100%;text-align:center">
+      <div style="font-size:60px;margin-bottom:16px">✅</div>
+      <h2 style="font-family:'Playfair Display',serif;color:#c9a84c;font-size:24px;margin-bottom:12px">Бронь ырасталды!</h2>
+      <div style="background:#241e16;border-radius:8px;padding:8px 16px;display:inline-block;margin:8px 0;font-family:monospace;color:#e8c96a;font-size:16px">${bookingId}</div>
+      <p style="color:#8a7a62;font-size:14px;line-height:1.6;margin:12px 0">Биз сизди күтөбүз! 🌿<br>Суроолор: <strong style="color:#c9a84c">+996 700 123 456</strong></p>
+      <button onclick="this.closest('div[style]').remove()" style="background:#c9a84c;color:#0f0c08;border:none;padding:12px 32px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px">Жабуу</button>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+updateCart();
+  showToast(`${emoji} ${name} себетке кошулду!`);
+}
+
+function updateCart() {
+  const total = cart.reduce((s,i) => s + i.баа * i.сан, 0);
+  document.getElementById('cartCount').textContent = cart.reduce((s,i) => s + i.сан, 0);
+  document.getElementById('cartTotal').textContent = total + ' сом';
+
+  const itemsEl = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+
+  if (!cart.length) {
+    itemsEl.innerHTML = `<div class="cart-empty"><div class="empty-icon">🛒</div><p>Себетиңиз бош.<br>Менюдан тамак тандаңыз!</p></div>`;
+    footer.style.display = 'none';
+    return;
+  }
+  footer.style.display = '';
+  itemsEl.innerHTML = cart.map((item,i) => `
+    <div class="cart-item">
+      <div class="cart-item-emoji">${item.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.ат}</div>
+        <div class="cart-item-price">${item.баа * item.сан} сом</div>
+      </div>
+      <div class="qty-controls">
+        <button class="qty-btn" onclick="changeQty(${i},-1)">−</button>
+        <span class="qty-num">${item.сан}</span>
+        <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+      </div>
+    </div>`).join('');
+}
+
+function changeQty(i, d) {
+  cart[i].сан += d;
+  if (cart[i].сан <= 0) cart.splice(i, 1);
+  updateCart();
+}
+
+function toggleCart() {
+  document.getElementById('cartOverlay').classList.toggle('open');
+  document.getElementById('cartPanel').classList.toggle('open');
+}
+
+// Order
+function openOrderModal() {
+  toggleCart();
+  document.getElementById('orderModal').classList.add('open');
+}
+function closeOrderModal() {
+  document.getElementById('orderModal').classList.remove('open');
+  document.getElementById('orderForm').style.display = '';
+  document.getElementById('orderSuccess').style.display = 'none';
+}
+function setType(t) {
+  orderType = t;
+  document.getElementById('typeDelivery').classList.toggle('active', t==='delivery');
+  document.getElementById('typePickup').classList.toggle('active', t==='pickup');
+  document.getElementById('addressGroup').style.display = t==='delivery' ? '' : 'none';
+}
+function submitOrder() {
+  const name = document.getElementById('orderName').value.trim();
+  const phone = document.getElementById('orderPhone').value.trim();
+  const address = document.getElementById('orderAddress').value.trim();
+  if (!name || !phone) { showToast('⚠️ Аты жана телефон керек!'); return; }
+  if (!cart.length) { showToast('⚠️ Себет бош!'); return; }
+  fetch('/api/orders', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, phone, address, type: orderType === 'delivery' ? 'Жеткирүү' : 'Алып кетүү', cart, source: 'Веб-сайт' })
+  })
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById('successOrderId').textContent = data.order.id;
+    document.getElementById('orderForm').style.display = 'none';
+    document.getElementById('orderSuccess').style.display = '';
+    cart = []; updateCart();
+  })
+  .catch(() => {
+    const id = 'ORD-' + Date.now().toString().slice(-6);
+    document.getElementById('successOrderId').textContent = id;
+    document.getElementById('orderForm').style.display = 'none';
+    document.getElementById('orderSuccess').style.display = '';
+    cart = []; updateCart();
+  });
+}
+
+// Booking — build days
+const daysGrid = document.getElementById('daysGrid');
+const dayNames = ['Жек','Дүй','Шей','Шар','Бей','Жум','Иш'];
+for (let i=0; i<7; i++) {
+  const d = new Date(); d.setDate(d.getDate()+i);
+  const btn = document.createElement('button');
+  btn.className = 'day-btn';
+  btn.innerHTML = `<span class="day-name">${i===0?'Бүгүн':i===1?'Эртең':dayNames[d.getDay()]}</span><span class="day-num">${d.getDate()}</span>`;
+  btn.onclick = function() { selectDay(this, `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}`); };
+  daysGrid.appendChild(btn);
+}
+function selectDay(el, val) {
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedDay = val;
+}
+function selectTime(el) {
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedTime = el.textContent;
+}
+function selectPersons(el) {
+  document.querySelectorAll('.person-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedPersons = el.textContent;
+}
+function submitBooking() {
+  const name = document.getElementById('bookName').value.trim();
+  const phone = document.getElementById('bookPhone').value.trim();
+  if (!selectedDay) { showToast('⚠️ Күн тандаңыз!'); return; }
+  if (!selectedTime) { showToast('⚠️ Убакыт тандаңыз!'); return; }
+  if (!selectedPersons) { showToast('⚠️ Адам санын тандаңыз!'); return; }
+  if (!name || !phone) { showToast('⚠️ Аты жана телефон керек!'); return; }
+  fetch('/api/bookings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, phone, date: selectedDay, time: selectedTime, persons: selectedPersons, source: 'Веб-сайт' })
+  })
+  .then(r => r.json())
+  .then(data => {
+    // Ийгиликтүү бронь
+    document.getElementById('bookName').value = '';
+    document.getElementById('bookPhone').value = '';
+    selectedDay = selectedTime = selectedPersons = null;
+    document.querySelectorAll('.day-btn,.time-btn,.person-btn').forEach(b => b.classList.remove('active'));
+    showBookingSuccess(data.booking.id);
+  })
+  .catch(() => {
+    showToast('⚠️ Сервер менен байланыш жок');
+  });
+}
+
+// Page navigation
+function showPage(id, tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  tab.classList.add('active');
+}
+
+// Toast
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+updateCart();
+</script>
+</body>
+</html>

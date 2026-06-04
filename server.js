@@ -132,6 +132,21 @@ app.patch('/api/bookings/:id', (req, res) => {
   if (idx === -1) return res.status(404).json({ error: 'Табылган жок' });
   bookings[idx] = { ...bookings[idx], ...req.body };
   writeData(BOOKINGS_FILE, bookings);
+  
+  if (req.body.status === 'confirmed') {
+    const b = bookings[idx];
+    notifyAdmin(
+      `✅ *Бронь ырасталды!*\n\n` +
+      `🔖 №${b.id}\n` +
+      `👤 Аты: ${b.name}\n` +
+      `📞 Тел: ${b.phone}\n` +
+      `📅 Дата: ${b.date}\n` +
+      `🕐 Убакыт: ${b.time}\n` +
+      `👥 Адам саны: ${b.persons}\n` +
+      `📱 Булак: ${b.source || 'Веб-сайт'}`
+    );
+  }
+  
   res.json({ success: true });
 });
 
@@ -390,6 +405,16 @@ function finalizeBotBooking(id, user) {
   user.booking = {};
   user.step = 'main';
 }
+
+// Бронь болгон убакыттарды кайтар
+app.get('/api/bookings/busy', (req, res) => {
+  const bookings = readData(BOOKINGS_FILE);
+  const { date } = req.query;
+  const busy = bookings
+    .filter(b => b.date === date && b.status !== 'cancelled')
+    .map(b => b.time);
+  res.json({ busy });
+});
 
 // ========== СЕРВЕР ИШТЕТҮҮ ==========
 app.listen(PORT, () => {

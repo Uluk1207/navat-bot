@@ -474,6 +474,13 @@
     transition: all 0.2s;
     text-align: center;
   }
+  .time-btn.busy {
+    background: rgba(192,57,43,0.1) !important;
+    border-color: rgba(192,57,43,0.3) !important;
+    color: #7f3d3d !important;
+    cursor: not-allowed !important;
+    text-decoration: line-through;
+  }
   .time-btn:hover, .time-btn.active {
     background: rgba(201,168,76,0.15);
     border-color: var(--gold);
@@ -991,6 +998,35 @@ function selectDay(el, val) {
   document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   selectedDay = val;
+  loadBusyTimes(val);
+}
+
+async function loadBusyTimes(date) {
+  try {
+    const res = await fetch(`${API_BASE}/api/bookings/busy?date=${date}`);
+    const data = await res.json();
+    const busyTimes = data.busy || [];
+    
+    document.querySelectorAll('.time-btn').forEach(btn => {
+      const time = btn.textContent.trim();
+      if (busyTimes.includes(time)) {
+        btn.classList.add('busy');
+        btn.classList.remove('active');
+        btn.disabled = true;
+        btn.title = 'Бул убакыт брондолгон';
+      } else {
+        btn.classList.remove('busy');
+        btn.disabled = false;
+        btn.title = '';
+      }
+    });
+    
+    if (selectedTime && busyTimes.includes(selectedTime)) {
+      selectedTime = null;
+    }
+  } catch(e) {
+    console.log('Busy times error:', e);
+  }
 }
 function selectTime(el) {
   document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));

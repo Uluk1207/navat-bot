@@ -98,16 +98,6 @@ app.patch('/api/orders/:id', (req, res) => {
 });
 
 // Брондоолор
-// Бронь болгон убакыттарды кайтар
-app.get('/api/bookings/busy', (req, res) => {
-  const bookings = readData(BOOKINGS_FILE);
-  const { date } = req.query;
-  const busy = bookings
-    .filter(b => b.date === date && b.status !== 'cancelled')
-    .map(b => b.time);
-  res.json({ busy });
-});
-
 app.get('/api/bookings', (req, res) => {
   res.json(readData(BOOKINGS_FILE));
 });
@@ -415,6 +405,16 @@ function finalizeBotBooking(id, user) {
   user.booking = {};
   user.step = 'main';
 }
+
+// Бронь болгон убакыттарды кайтар
+app.get('/api/bookings/busy', (req, res) => {
+  const bookings = readData(BOOKINGS_FILE);
+  const { date } = req.query;
+  const busy = bookings
+    .filter(b => b.date === date && b.status !== 'cancelled')
+    .map(b => b.time);
+  res.json({ busy });
+});
 
 // ========== СЕРВЕР ИШТЕТҮҮ ==========
 app.listen(PORT, () => {

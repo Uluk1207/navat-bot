@@ -1050,20 +1050,17 @@ function submitBooking() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, phone, date: selectedDay, time: selectedTime, persons: selectedPersons, source: 'Веб-сайт' })
   })
-  .then(r => {
-    if (!r.ok) throw new Error('Server: ' + r.status);
-    return r.json();
-  })
+  .then(r => r.json())
   .then(data => {
+    // Ийгиликтүү бронь
     document.getElementById('bookName').value = '';
     document.getElementById('bookPhone').value = '';
     selectedDay = selectedTime = selectedPersons = null;
     document.querySelectorAll('.day-btn,.time-btn,.person-btn').forEach(b => b.classList.remove('active'));
     showBookingSuccess(data.booking.id);
   })
-  .catch(err => {
-    console.error('Booking error:', err);
-    showToast('⚠️ Ката: ' + err.message);
+  .catch(() => {
+    showToast('⚠️ Сервер менен байланыш жок');
   });
 }
 

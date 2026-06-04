@@ -881,21 +881,7 @@ function addToCart(cat, name, price, emoji, btn) {
   btn.textContent = '✓';
   btn.classList.add('in-cart');
   setTimeout(() => { btn.textContent = '+'; btn.classList.remove('in-cart'); }, 800);
-  function showBookingSuccess(bookingId) {
-  // Бронь ырасталды модал
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px';
-  overlay.innerHTML = `
-    <div style="background:#1a1510;border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:36px;max-width:400px;width:100%;text-align:center">
-      <div style="font-size:60px;margin-bottom:16px">✅</div>
-      <h2 style="font-family:'Playfair Display',serif;color:#c9a84c;font-size:24px;margin-bottom:12px">Бронь ырасталды!</h2>
-      <div style="background:#241e16;border-radius:8px;padding:8px 16px;display:inline-block;margin:8px 0;font-family:monospace;color:#e8c96a;font-size:16px">${bookingId}</div>
-      <p style="color:#8a7a62;font-size:14px;line-height:1.6;margin:12px 0">Биз сизди күтөбүз! 🌿<br>Суроолор: <strong style="color:#c9a84c">+996 700 123 456</strong></p>
-      <button onclick="this.closest('div[style]').remove()" style="background:#c9a84c;color:#0f0c08;border:none;padding:12px 32px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px">Жабуу</button>
-    </div>`;
-  document.body.appendChild(overlay);
-}
-
+  
 updateCart();
   showToast(`${emoji} ${name} себетке кошулду!`);
 }
@@ -1038,6 +1024,21 @@ function selectPersons(el) {
   el.classList.add('active');
   selectedPersons = el.textContent;
 }
+function showBookingSuccess(bookingId) {
+  // Бронь ырасталды модал
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px';
+  overlay.innerHTML = `
+    <div style="background:#1a1510;border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:36px;max-width:400px;width:100%;text-align:center">
+      <div style="font-size:60px;margin-bottom:16px">✅</div>
+      <h2 style="font-family:'Playfair Display',serif;color:#c9a84c;font-size:24px;margin-bottom:12px">Бронь ырасталды!</h2>
+      <div style="background:#241e16;border-radius:8px;padding:8px 16px;display:inline-block;margin:8px 0;font-family:monospace;color:#e8c96a;font-size:16px">${bookingId}</div>
+      <p style="color:#8a7a62;font-size:14px;line-height:1.6;margin:12px 0">Биз сизди күтөбүз! 🌿<br>Суроолор: <strong style="color:#c9a84c">+996 700 123 456</strong></p>
+      <button onclick="this.closest('div[style]').remove()" style="background:#c9a84c;color:#0f0c08;border:none;padding:12px 32px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px">Жабуу</button>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
 function submitBooking() {
   const name = document.getElementById('bookName').value.trim();
   const phone = document.getElementById('bookPhone').value.trim();
